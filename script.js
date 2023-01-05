@@ -1,25 +1,22 @@
-const keys ={
-    effect(kCode) {
-	
-	let modifyKey = document.querySelectorAll(`[data-key="${kCode}"`);
-	modifyKey[1].play();
-	modifyKey[0].classList.toggle('playing');
-	
-    },
+const keyDown = (ev) => {
+    
+    if (!(document.querySelector(`[data-key="${ev.keyCode}"`))){return;}
 
-    endEffect(kCode){
-	document.querySelector(`./keys.[data-key="${kCode}"`).classList.toggle('playing');
-    }
+    let box = document.querySelector(`.key[data-key="${ev.keyCode}"`);
+    let audio = document.querySelector(`audio[data-key="${ev.keyCode}"`);
+    box.classList.toggle('playing');
+    audio.currentTime=0;
+    audio.play();
+    
 };
+const keyUp = (ev) => {
+    if (!(document.querySelector(`[data-key="${ev.keyCode}"`))){return;}
 
-const keyHandler = (ev) => {
+    let box = document.querySelector(`.key[data-key="${ev.keyCode}"`);
+    box.classList.toggle('playing');
+}
 
-    if (!(document.querySelector(`[data-key="${ev.keyCode}"`))){
-	return null;
-    }
-    if (ev.keyCode == 'keyup'){return (keys.endEffect(ev.keyCode))}
-    return (keys.effect(ev.keyCode));
-};
+window.addEventListener ('keydown', keyDown);
+window.addEventListener ('keyup', keyUp);
 
-['keydown', 'keyup'].forEach((event) =>{document.body.addEventListener (event, keyHandler);});
 
